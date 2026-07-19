@@ -89,7 +89,10 @@ const MONTHLY_MULT = 2;
 const STAFF_APP_URL = (
   import.meta.env.VITE_STAFF_APP_URL || 'https://careflow-staff-seven.vercel.app'
 ).replace(/\/$/, '');
-const TRY_NOW_URL = `${STAFF_APP_URL}/register`;
+/** Full Try now href — set VITE_TRY_NOW_URL, or STAFF_APP_URL + /register. */
+const TRY_NOW_URL = (
+  import.meta.env.VITE_TRY_NOW_URL || `${STAFF_APP_URL}/register`
+).replace(/\/$/, '');
 
 export default function App() {
   useLandingScroll();

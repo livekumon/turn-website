@@ -20,7 +20,9 @@ Use a **Web Service** (Dockerfile detected automatically) or Node buildpack:
 Build-time env (no trailing slash):
 
 ```env
-VITE_STAFF_APP_URL=https://your-staff.ondigitalocean.app
+VITE_TRY_NOW_URL=https://your-staff.ondigitalocean.app/register
+# optional fallback if VITE_TRY_NOW_URL is unset:
+# VITE_STAFF_APP_URL=https://your-staff.ondigitalocean.app
 ```
 
 ## Palette

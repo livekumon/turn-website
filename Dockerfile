@@ -7,8 +7,10 @@ RUN npm ci
 
 COPY . .
 
-# Bake staff app URL at build time (Try now → /register)
+# Bake Try now URL at build time
+ARG VITE_TRY_NOW_URL=
 ARG VITE_STAFF_APP_URL=
+ENV VITE_TRY_NOW_URL=$VITE_TRY_NOW_URL
 ENV VITE_STAFF_APP_URL=$VITE_STAFF_APP_URL
 
 RUN npm run build
