@@ -1,19 +1,26 @@
 # Pammi.app — marketing site
 
-React (Vite) landing page for **Pammi.app**, adapted from the clinic queue prototype.
-
-## Develop
+React (Vite) landing page for **Pammi.app**.
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+## DigitalOcean App Platform
 
-```bash
-npm run build
-npm run preview
+Use a **Web Service** (Dockerfile detected automatically) or Node buildpack:
+
+| Setting | Value |
+|---------|--------|
+| Build command | `npm install --include=dev && npm run build` |
+| Run command | `npm start` |
+| HTTP port | `8080` (or `$PORT`) |
+
+Build-time env (no trailing slash):
+
+```env
+VITE_STAFF_APP_URL=https://your-staff.ondigitalocean.app
 ```
 
 ## Palette

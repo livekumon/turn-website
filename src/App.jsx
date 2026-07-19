@@ -86,7 +86,9 @@ function ManualQueueIcon() {
 
 const ANNUAL_PRICES = { solo: 5, pack: 20, bulk: 4 };
 const MONTHLY_MULT = 2;
-const STAFF_APP_URL = 'https://careflow-staff-seven.vercel.app';
+const STAFF_APP_URL = (
+  import.meta.env.VITE_STAFF_APP_URL || 'https://careflow-staff-seven.vercel.app'
+).replace(/\/$/, '');
 const TRY_NOW_URL = `${STAFF_APP_URL}/register`;
 
 export default function App() {
