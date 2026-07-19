@@ -77,27 +77,40 @@ export default function useLandingScroll() {
       }
     }
 
-    const liveNumber = document.getElementById('liveNumber');
-    const liveRing = document.getElementById('liveRingFill');
-    const statusPill = document.getElementById('statusPill');
+    const roadLoc = document.getElementById('roadLoc');
+    const roadClinic = document.getElementById('roadClinic');
+    const roadLine = document.getElementById('roadLine');
+    const roadBadge = document.getElementById('roadBadge');
+    const roadMins = document.getElementById('roadMins');
+    const predictCard = document.getElementById('predictCard');
     function update3(p) {
-      const n = Math.max(1, Math.round(14 - p * 13));
-      if (liveNumber) liveNumber.textContent = String(n);
-      if (liveRing) liveRing.style.strokeDashoffset = String((1 - p) * 264);
-      if (statusPill) {
-        if (p < 0.78) {
-          statusPill.textContent = 'Waiting';
-          statusPill.style.background = 'rgba(255,255,255,0.08)';
-          statusPill.style.color = 'var(--ink-text-dim)';
-        } else if (p < 0.94) {
-          statusPill.textContent = 'Serving';
-          statusPill.style.background = 'rgba(255,90,31,0.16)';
-          statusPill.style.color = 'var(--signal)';
-        } else {
-          statusPill.textContent = 'Done';
-          statusPill.style.background = 'rgba(31,92,82,0.35)';
-          statusPill.style.color = 'var(--teal)';
-        }
+      const locP = clamp01(p / 0.22);
+      if (roadLoc) {
+        roadLoc.style.opacity = locP;
+        roadLoc.style.transform = `translateY(${(1 - locP) * (reduced ? 0 : 14)}px)`;
+      }
+
+      const pathP = clamp01((p - 0.18) / 0.35);
+      if (roadLine) roadLine.style.transform = `scaleX(${pathP})`;
+      if (roadBadge) {
+        roadBadge.style.opacity = pathP;
+        roadBadge.style.transform = `translate(-50%, -50%) scale(${0.85 + pathP * 0.15})`;
+      }
+      if (roadMins) {
+        const mins = Math.round(18 - pathP * 6);
+        roadMins.textContent = String(Math.max(12, mins));
+      }
+
+      const clinicP = clamp01((p - 0.45) / 0.25);
+      if (roadClinic) {
+        roadClinic.style.opacity = clinicP;
+        roadClinic.style.transform = `translateY(${(1 - clinicP) * (reduced ? 0 : 14)}px)`;
+      }
+
+      const predP = clamp01((p - 0.68) / 0.25);
+      if (predictCard) {
+        predictCard.style.opacity = predP;
+        predictCard.style.transform = `translateY(${(1 - predP) * (reduced ? 0 : 16)}px)`;
       }
     }
 
@@ -118,12 +131,10 @@ export default function useLandingScroll() {
       if (phoneGlow) phoneGlow.style.opacity = clamp01((p - 0.4) * 3);
     }
 
-    function update5() {}
-
     const dcNow = document.getElementById('dcNow');
     const dcRows = document.querySelectorAll('#doctorCard .dc-row');
     const dcFoot = document.querySelector('#doctorCard .dc-foot');
-    function update6(p) {
+    function update5(p) {
       const nowP = clamp01(p * 5);
       if (dcNow) {
         dcNow.style.opacity = nowP;
@@ -138,14 +149,44 @@ export default function useLandingScroll() {
       if (dcFoot) dcFoot.style.opacity = clamp01((p - 0.85) * 6);
     }
 
+    const priceToggle = document.getElementById('priceToggle');
+    const priceFree = document.getElementById('priceFree');
+    const priceSolo = document.getElementById('priceSolo');
+    const pricePack = document.getElementById('pricePack');
+    const priceActions = document.getElementById('priceActions');
+    function update6(p) {
+      const toggleP = clamp01(p / 0.25);
+      if (priceToggle) {
+        priceToggle.style.opacity = toggleP;
+        priceToggle.style.transform = `translateY(${(1 - toggleP) * (reduced ? 0 : 12)}px)`;
+      }
+
+      const cards = [priceFree, priceSolo, pricePack];
+      cards.forEach((card, i) => {
+        if (!card) return;
+        const local = clamp01((p - (0.2 + i * 0.12)) / 0.2);
+        card.style.opacity = local;
+        card.style.transform = `translateY(${(1 - local) * (reduced ? 0 : 16)}px)`;
+      });
+
+      const actionsP = clamp01((p - 0.55) / 0.25);
+      if (priceActions) {
+        priceActions.style.opacity = actionsP;
+        priceActions.style.transform = `translateY(${(1 - actionsP) * (reduced ? 0 : 12)}px)`;
+      }
+    }
+
     registerChapter('ch1', update1, '#captions1 .cap');
     registerChapter('ch2', update2, '#captions2 .cap');
     registerChapter('ch3', update3, '#captions3 .cap');
     registerChapter('ch4', update4, '#captions4 .cap');
-    registerChapter('ch5', update5, '#captions5 .cap', '#ch5 .shot');
+    registerChapter('ch5', update5, '#captions5 .cap');
     registerChapter('ch6', update6, '#captions6 .cap');
 
     const closing = document.getElementById('closing');
+    const tryNowBar = document.getElementById('tryNowBar');
+    const tryNowBtn = document.getElementById('tryNowBtn');
+    const tryNowSlot = document.getElementById('tryNowSlot');
     let io;
     if ('IntersectionObserver' in window && closing) {
       io = new IntersectionObserver(
@@ -159,6 +200,50 @@ export default function useLandingScroll() {
       io.observe(closing);
     } else if (closing) {
       closing.classList.add('in-view');
+    }
+
+    function easeInOut(t) {
+      return t * t * (3 - 2 * t);
+    }
+
+    function updateTryNowDock() {
+      if (!closing || !tryNowBar || !tryNowBtn || !tryNowSlot) return;
+
+      const closingRect = closing.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Float from the bottom bar into the In short CTA
+      const startAt = vh * 0.98;
+      const endAt = vh * 0.32;
+      let p = clamp01((startAt - closingRect.top) / (startAt - endAt));
+      if (reduced) p = p > 0.5 ? 1 : 0;
+      const eased = easeInOut(p);
+
+      const slotRect = tryNowSlot.getBoundingClientRect();
+      const btnH = tryNowBtn.offsetHeight || 50;
+      const startX = window.innerWidth / 2;
+      const startY = vh - 28 - btnH / 2;
+      const endX = slotRect.left + slotRect.width / 2;
+      const endY = slotRect.top + slotRect.height / 2;
+
+      const x = startX + (endX - startX) * eased;
+      const y = startY + (endY - startY) * eased;
+      const docked = eased > 0.92;
+
+      tryNowBtn.style.position = 'fixed';
+      tryNowBtn.style.left = `${x}px`;
+      tryNowBtn.style.top = `${y}px`;
+      tryNowBtn.style.transform = 'translate(-50%, -50%)';
+      tryNowBtn.style.zIndex = '71';
+      tryNowBtn.style.opacity = docked ? '0' : '1';
+      tryNowBtn.style.pointerEvents = docked ? 'none' : 'auto';
+      tryNowBtn.classList.toggle('is-docked', docked);
+
+      tryNowBar.style.opacity = String(1 - eased);
+      tryNowBar.style.pointerEvents = 'none';
+
+      // In-page CTA always sits below the copy; floating button hands off when it arrives
+      tryNowSlot.style.opacity = '1';
+      tryNowSlot.style.pointerEvents = 'auto';
     }
 
     let ticking = false;
@@ -181,6 +266,8 @@ export default function useLandingScroll() {
           });
         }
       });
+
+      updateTryNowDock();
     }
 
     function onScroll() {

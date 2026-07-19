@@ -1,6 +1,6 @@
-# Turn — marketing site
+# Pammi.app — marketing site
 
-React (Vite) landing page for **Turn**, adapted from the clinic queue prototype.
+React (Vite) landing page for **Pammi.app**, adapted from the clinic queue prototype.
 
 ## Develop
 
