@@ -1,5 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useLandingScroll from './hooks/useLandingScroll';
+import {
+  installChapterViewTracking,
+  trackBillingToggle,
+  trackReferClinic,
+  trackTryNow,
+} from './lib/analytics';
 
 function ScanBarcodeIcon({ className = 'scan-icon' }) {
   return (
@@ -101,6 +107,15 @@ export default function App() {
   const solo = ANNUAL_PRICES.solo * mult;
   const pack = ANNUAL_PRICES.pack * mult;
   const bulk = ANNUAL_PRICES.bulk * mult;
+
+  useEffect(() => {
+    installChapterViewTracking();
+  }, []);
+
+  function selectBilling(period) {
+    setBilling(period);
+    trackBillingToggle(period);
+  }
 
   return (
     <>
@@ -348,14 +363,14 @@ export default function App() {
               <button
                 type="button"
                 className={billing === 'annual' ? 'is-active' : undefined}
-                onClick={() => setBilling('annual')}
+                onClick={() => selectBilling('annual')}
               >
                 Annual
               </button>
               <button
                 type="button"
                 className={billing === 'monthly' ? 'is-active' : undefined}
-                onClick={() => setBilling('monthly')}
+                onClick={() => selectBilling('monthly')}
               >
                 Monthly
               </button>
@@ -425,12 +440,17 @@ export default function App() {
             </div>
 
             <div className="price-actions" id="priceActions">
-              <a className="price-btn price-btn--primary" href={TRY_NOW_URL}>
+              <a
+                className="price-btn price-btn--primary"
+                href={TRY_NOW_URL}
+                onClick={() => trackTryNow('pricing')}
+              >
                 Try now
               </a>
               <a
                 className="price-btn price-btn--ghost"
                 href="mailto:hello@pammi.app?subject=Refer%20a%20clinic"
+                onClick={() => trackReferClinic()}
               >
                 Refer to get one more month free
               </a>
@@ -457,7 +477,12 @@ export default function App() {
           from one screen. Doctors see only their own — who&apos;s waiting, who&apos;s up next. No
           new hardware, no app to install — just a code by the door.
         </p>
-        <a className="cta" id="tryNowSlot" href={TRY_NOW_URL}>
+        <a
+          className="cta"
+          id="tryNowSlot"
+          href={TRY_NOW_URL}
+          onClick={() => trackTryNow('closing')}
+        >
           Try now
         </a>
       </section>
@@ -469,7 +494,12 @@ export default function App() {
       </footer>
 
       <div className="try-now-bar" id="tryNowBar">
-        <a className="try-now-bar-btn" id="tryNowBtn" href={TRY_NOW_URL}>
+        <a
+          className="try-now-bar-btn"
+          id="tryNowBtn"
+          href={TRY_NOW_URL}
+          onClick={() => trackTryNow('sticky_bar')}
+        >
           Try now
         </a>
       </div>
