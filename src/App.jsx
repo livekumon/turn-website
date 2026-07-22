@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import BrandLogo from './components/BrandLogo';
 import useLandingScroll from './hooks/useLandingScroll';
 import {
   installChapterViewTracking,
@@ -121,9 +120,7 @@ export default function App() {
   return (
     <>
       <div className="progress-bar" id="progressBar" />
-      <div className="wordmark" aria-label="Pammi">
-        <BrandLogo className="brand-logo--wordmark" />
-      </div>
+      <div className="wordmark">Pammi.app</div>
 
       <header className="hero">
         <div className="hero-token" aria-hidden="true">
@@ -491,9 +488,7 @@ export default function App() {
       </section>
 
       <footer>
-        <div className="foot-brand">
-          <BrandLogo className="brand-logo--footer" />
-        </div>
+        <div className="foot-brand">Pammi.app</div>
         <p>Built for clinics that don&apos;t want a waiting room to feel like one.</p>
         <p>hello@pammi.app</p>
       </footer>

@@ -34,19 +34,10 @@
     background:var(--signal); z-index:60; transition:width .05s linear;
   }
   .wordmark{
-    position:fixed; top:16px; left:20px; z-index:55;
-    pointer-events:none;
-  }
-  .brand-logo{
-    display:block; height:auto; width:auto; max-width:100%; object-fit:contain;
-  }
-  .brand-logo--wordmark{
-    width:min(148px, 42vw); height:auto;
-    border-radius:10px; background:#fff; padding:6px 10px;
-    box-shadow:0 4px 18px rgba(16,32,29,0.14);
-  }
-  .brand-logo--footer{
-    width:160px; height:auto;
+    position:fixed; top:22px; left:28px; z-index:55;
+    font-family:'Fraunces',serif; font-style:italic; font-weight:500;
+    font-size:1.15rem; letter-spacing:0.01em;
+    color:#fff; mix-blend-mode:difference; pointer-events:none;
   }
 
   /* ---------- hero ---------- */
@@ -445,7 +436,7 @@
     padding:48px 24px 64px; text-align:center; background:var(--ink);
     color:var(--ink-text-dim); font-size:0.8rem; line-height:1.7;
   }
-  footer .foot-brand{ line-height:0; }
+  footer .foot-brand{ font-family:'Fraunces',serif; font-style:italic; color:var(--ink-text); font-size:1rem; }
 
   .try-now-bar{
     position:fixed; left:0; right:0; bottom:0; z-index:70;
