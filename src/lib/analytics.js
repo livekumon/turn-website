@@ -12,7 +12,7 @@ export const GA_PROPERTY_ID = String(
 ).trim();
 
 export const GA_MEASUREMENT_ID = String(
-  import.meta.env.VITE_GA_MEASUREMENT_ID || ''
+  import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-73LEVKZ4QP'
 )
   .trim()
   .toUpperCase();
