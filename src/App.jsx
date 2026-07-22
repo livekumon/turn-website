@@ -401,7 +401,7 @@ export default function App() {
                   ${solo}
                   <span className="price-card-amt-unit"> / doctor</span>
                 </strong>
-                <span>{billing === 'annual' ? 'Billed annually' : 'Billed monthly'}</span>
+                <span>Pro · {billing === 'annual' ? 'billed annually' : 'billed monthly'}</span>
               </div>
 
               <div className="price-card" id="pricePack">
@@ -420,7 +420,7 @@ export default function App() {
                   ${pack}
                   <span className="price-card-amt-unit"> for 5 doctors</span>
                 </strong>
-                <span>Group pack</span>
+                <span>Pro Plus</span>
               </div>
             </div>
 
@@ -437,8 +437,8 @@ export default function App() {
             </div>
           </div>
           <div className="captions" id="captions6">
-            <p className="cap">First month free — then ${solo} per doctor.</p>
-            <p className="cap">${pack} covers five doctors as a group pack.</p>
+            <p className="cap">First month free — then Pro at ${solo} per doctor.</p>
+            <p className="cap">Pro Plus at ${pack} covers five doctors.</p>
             <p className="cap">
               Scaling past five? ${bulk} per doctor. Monthly plans are double annual.
             </p>
