@@ -72,6 +72,89 @@ function buildConfigSnippet() {
 </script>`;
 }
 
+const SITE = 'https://pammi.app';
+
+/** FAQ text kept in sync with the visible #faq section on the homepage. */
+const FAQ_ITEMS = [
+  {
+    q: 'Do patients install an app?',
+    a: "No. They simply scan the QR code — it opens straight in their phone's browser.",
+  },
+  {
+    q: 'How long does setup take?',
+    a: "Less than 5 minutes. Print the QR, place it at reception, and you're live.",
+  },
+  {
+    q: 'Does it work for multiple doctors?',
+    a: 'Yes — unlimited doctors, each with their own independent queue.',
+  },
+  {
+    q: 'Can I customize queues?',
+    a: 'Yes. Each doctor has their own queue, hours, and availability status.',
+  },
+  {
+    q: 'What does the front desk need to do?',
+    a: 'Just tap "next" when a doctor is ready. Pammi handles the numbering, tracking, and patient notifications automatically.',
+  },
+];
+
+function buildSeoSnippet() {
+  const orgSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Pammi',
+    url: SITE,
+    logo: `${SITE}/logo.png`,
+    email: 'hello@pammi.app',
+    sameAs: [],
+  };
+
+  const softwareSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Pammi',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    description:
+      "QR-based virtual queue management system for clinics and hospitals. Patients scan a QR code, join the queue instantly, and track their turn live — no app install, no hardware, 5-minute setup.",
+    url: SITE,
+    offers: [
+      { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+      { '@type': 'Offer', name: 'Pro', price: '5', priceCurrency: 'USD', description: 'per doctor, billed annually' },
+      { '@type': 'Offer', name: 'Pro Plus', price: '20', priceCurrency: 'USD', description: 'for 5 doctors, billed annually' },
+      { '@type': 'Offer', name: 'Enterprise', description: 'Custom pricing — contact admin@pammi.app' },
+    ],
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+
+  const jsonLd = [orgSchema, softwareSchema, faqSchema]
+    .map((obj) => `<script type="application/ld+json">${JSON.stringify(obj)}</script>`)
+    .join('\n');
+
+  const meta = `<link rel="canonical" href="${SITE}/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Pammi" />
+<meta property="og:title" content="Pammi — The Smart Queue System for Modern Clinics" />
+<meta property="og:description" content="Patients scan a QR code, join your queue instantly, track their turn live, and return when it's time. No waiting rooms. No apps to install." />
+<meta property="og:url" content="${SITE}/" />
+<meta property="og:image" content="${SITE}/logo.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Pammi — The Smart Queue System for Modern Clinics" />
+<meta name="twitter:description" content="Patients scan a QR code, join your queue instantly, track their turn live. No waiting rooms. No apps to install." />
+<meta name="keywords" content="queue management system, queue management software, virtual queue management system, hospital queue management system, healthcare queue management system, clinic queue management, customer queue management system" />`;
+
+  return `${meta}\n${jsonLd}`;
+}
+
 function applyCtaOverrides(html) {
   let out = html;
 
@@ -114,7 +197,7 @@ cpSync(publicDir, distDir, { recursive: true });
 const indexPath = join(distDir, 'index.html');
 let html = readFileSync(indexPath, 'utf8');
 
-const inject = `${buildConfigSnippet()}\n${buildAnalyticsSnippet()}\n`;
+const inject = `${buildSeoSnippet()}\n${buildConfigSnippet()}\n${buildAnalyticsSnippet()}\n`;
 if (html.includes('</head>')) {
   html = html.replace('</head>', `${inject}</head>`);
 } else {

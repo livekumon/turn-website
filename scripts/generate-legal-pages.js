@@ -5,6 +5,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { siteHeader, siteFooter } from './site-chrome.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');
@@ -299,60 +300,6 @@ const PAGES = [
   },
 ];
 
-function header(activeId) {
-  const links = PAGES.map(
-    (p) =>
-      `<a href="/${p.id}" class="${p.id === activeId ? 'is-active' : ''}">${p.title.split(' ')[0] === 'Terms' ? 'Terms' : p.id === 'refunds' ? 'Refunds' : p.id === 'shipping' ? 'Shipping' : p.id === 'privacy' ? 'Privacy' : 'Contact'}</a>`
-  ).join('\n        ');
-
-  return `<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="/" aria-label="Pammi home"><img src="/logo.png" alt="Pammi — No Waiting"></a>
-    <nav class="site-nav" aria-label="Legal">
-      ${links}
-    </nav>
-    <a class="btn btn-primary" href="/#demo">Try now</a>
-  </div>
-</header>`;
-}
-
-function footer() {
-  return `<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <img src="/logo.png" alt="Pammi">
-        <p>The smart queue system for modern clinics. Patients scan, track, and return when it's time.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Product</h4>
-        <a href="/#how">How it works</a>
-        <a href="/#pricing">Pricing</a>
-        <a href="/#faq">FAQ</a>
-        <a href="/#demo">Try now</a>
-      </div>
-      <div class="foot-col">
-        <h4>Legal</h4>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/refunds">Refunds &amp; Cancellation</a>
-        <a href="/shipping">Shipping &amp; Delivery</a>
-      </div>
-      <div class="foot-col">
-        <h4>Contact</h4>
-        <a href="/contact">Contact us</a>
-        <a href="mailto:hello@pammi.app">hello@pammi.app</a>
-        <a href="mailto:admin@pammi.app">admin@pammi.app</a>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <div>© 2026 Pammi. All rights reserved.</div>
-      <div>No waiting. Just Pammi.</div>
-    </div>
-  </div>
-</footer>`;
-}
-
 function renderPage(page) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -361,6 +308,7 @@ function renderPage(page) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${page.title} — Pammi</title>
   <meta name="description" content="${page.description}" />
+  <link rel="canonical" href="https://pammi.app/${page.id}" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -369,7 +317,7 @@ function renderPage(page) {
   <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-${header(page.id)}
+${siteHeader(`/${page.id}`)}
 <main class="legal-main">
   <div class="wrap">
     <div class="legal-hero">
@@ -386,7 +334,7 @@ ${header(page.id)}
     </article>
   </div>
 </main>
-${footer()}
+${siteFooter()}
 </body>
 </html>
 `;

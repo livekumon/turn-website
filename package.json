@@ -4,11 +4,12 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/generate-legal-pages.js && node scripts/build.js",
+    "build": "node scripts/generate-legal-pages.js && node scripts/generate-blog-pages.js && node scripts/generate-seo-files.js && node scripts/build.js",
     "dev": "npm run build && node server.js",
     "start": "node server.js",
     "preview": "npm run build && PORT=4173 node server.js",
-    "legal": "node scripts/generate-legal-pages.js"
+    "legal": "node scripts/generate-legal-pages.js",
+    "blog": "node scripts/generate-blog-pages.js"
   },
   "engines": {
     "node": ">=18"

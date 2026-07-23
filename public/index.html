@@ -313,9 +313,26 @@
   .price-grid{
     display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch;
   }
+  .billing-toggle{
+    display:inline-flex;align-items:center;gap:4px;padding:5px;margin:0 auto 36px;
+    background:rgba(15,106,97,0.08);border:1.5px solid rgba(24,59,58,0.12);border-radius:100px;
+  }
+  .billing-toggle button{
+    appearance:none;border:0;background:transparent;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:13.5px;font-weight:700;
+    color:rgba(24,59,58,0.55);padding:10px 18px;border-radius:100px;transition:0.2s ease;
+  }
+  .billing-toggle button.is-active{background:#fff;color:var(--primary);box-shadow:0 6px 16px -8px rgba(24,59,58,0.35);}
+  .billing-toggle .save-pill{
+    font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--accent);margin-left:4px;
+  }
+  .price-grid{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch;
+  }
   .price-card{
     background:#fff;border:1.5px solid rgba(24,59,58,0.14);border-radius:22px;
-    padding:34px 26px 28px;text-align:left;position:relative;display:flex;flex-direction:column;
+    padding:34px 24px 28px;text-align:left;position:relative;display:flex;flex-direction:column;
     box-shadow:0 18px 40px -28px rgba(24,59,58,0.28);
   }
   .price-card.is-featured{
@@ -329,14 +346,21 @@
   }
   .price-name{font-size:15px;font-weight:800;letter-spacing:0.02em;color:var(--dark);margin-bottom:6px;}
   .price-desc{font-size:13.5px;color:rgba(24,59,58,0.6);line-height:1.45;min-height:2.9em;margin-bottom:18px;}
-  .price-big{font-family:'Space Mono',monospace;font-size:42px;font-weight:700;margin:0 0 2px;color:var(--primary);line-height:1;}
-  .price-big .amt-unit{font-size:14px;font-weight:600;color:rgba(24,59,58,0.55);letter-spacing:0;}
+  .price-big{font-family:'Space Mono',monospace;font-size:40px;font-weight:700;margin:0 0 2px;color:var(--primary);line-height:1;}
+  .price-big .amt-unit{font-size:13px;font-weight:600;color:rgba(24,59,58,0.55);letter-spacing:0;}
   .price-sub{font-size:13px;color:rgba(24,59,58,0.55);margin:6px 0 22px;}
-  .price-list{list-style:none;text-align:left;margin:0 0 24px;flex:1;}
+  .price-list{list-style:none;text-align:left;margin:0 0 24px;flex:1;padding:0;}
   .price-list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13.5px;font-weight:600;line-height:1.35;}
   .price-list li .mark.check{background:var(--mint-card);color:var(--primary);flex-shrink:0;margin-top:1px;}
   .price-card .btn{width:100%;justify-content:center;margin-top:auto;}
   .price-then{font-size:13px;color:rgba(24,59,58,0.55);margin-top:22px;text-align:center;}
+  @media (max-width:1100px){
+    .price-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  @media (max-width:640px){
+    .price-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
+    .price-big{font-size:36px;}
+  }
   @media (max-width:1100px){
     .price-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   }
@@ -405,6 +429,7 @@
       <a href="#product">Product</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
+      <a href="/blog">Blog</a>
     </div>
     <a href="#demo" class="btn btn-primary btn-sm">Try now</a>
   </nav>
@@ -709,7 +734,7 @@
       <div class="price-card">
         <div class="price-flag">1st month free</div>
         <div class="price-name">Free</div>
-        <div class="price-desc">Everything included for your first month — no card required.</div>
+        <div class="price-desc">Full desk &amp; queue access for your first month — no card required.</div>
         <div class="price-big">$0</div>
         <div class="price-sub">for your first month</div>
         <ul class="price-list">
@@ -723,7 +748,7 @@
 
       <div class="price-card">
         <div class="price-name">Pro</div>
-        <div class="price-desc">One doctor seat after your free month.</div>
+        <div class="price-desc">One doctor seat after your free month — ideal for solo practitioners.</div>
         <div class="price-big" data-price-solo>$5 <span class="amt-unit">/ doctor</span></div>
         <div class="price-sub" data-price-period>billed annually</div>
         <ul class="price-list">
@@ -738,7 +763,7 @@
       <div class="price-card is-featured">
         <div class="price-flag">Best value</div>
         <div class="price-name">Pro Plus</div>
-        <div class="price-desc">Group pack for five doctors — best per-seat price.</div>
+        <div class="price-desc">Group pack for five doctors — best per-seat price for growing clinics.</div>
         <div class="price-big" data-price-pack>$20 <span class="amt-unit">for 5</span></div>
         <div class="price-sub" data-price-period>billed annually</div>
         <ul class="price-list">
@@ -753,7 +778,7 @@
       <div class="price-card">
         <div class="price-name">Enterprise</div>
         <div class="price-desc">Custom clinics, networks, and high-volume deployments.</div>
-        <div class="price-big" style="font-size:32px;">Custom</div>
+        <div class="price-big" style="font-size:30px;">Custom</div>
         <div class="price-sub">tailored to your clinics</div>
         <ul class="price-list">
           <li><span class="mark check">✓</span> Unlimited or custom seats</li>
@@ -765,7 +790,7 @@
       </div>
     </div>
 
-    <div class="price-then reveal">Prices are per month. Annual billing charges 12 months upfront at the annual rate. Monthly is double annual.</div>
+    <div class="price-then reveal">Prices are per month in USD. Annual billing charges 12 months upfront at the annual rate (save 50% vs monthly). Extra doctors beyond Pro Plus: from <span data-price-bulk>$4</span>/doctor.</div>
   </div>
 </section>
 
@@ -824,6 +849,7 @@
         <a href="#benefits">Benefits</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
+        <a href="/blog">Blog</a>
       </div>
       <div class="foot-col">
         <h4>Legal</h4>

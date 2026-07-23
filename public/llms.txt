@@ -1,0 +1,41 @@
+# Pammi
+
+> Pammi is a QR-based virtual queue management system for clinics and small hospitals. Patients scan a QR code at reception, join the queue instantly, and track their position live from their own phone — no app install, no kiosk hardware, and setup that takes about 5 minutes. Pammi typically reclaims up to 70% of average waiting-room time by moving patients out of the physical waiting room and into a live digital queue.
+
+Pammi is built for solo practitioners, small group practices, and multi-doctor clinics — not large multi-branch enterprise deployments. Each doctor runs an independent queue with its own hours and availability.
+
+## Pricing
+
+- Free: $0 for the first month, full access, no card required.
+- Pro: $5/doctor/month billed annually ($10/month billed monthly) — one doctor seat.
+- Pro Plus: $20/month billed annually for 5 doctors ($40/month billed monthly) — best per-seat value; extra seats from $4/doctor.
+- Enterprise: custom pricing for multi-clinic and high-volume deployments — contact admin@pammi.app.
+
+Full pricing: https://pammi.app/#pricing
+
+## Key pages
+
+- Home / product overview: https://pammi.app/
+- Pricing: https://pammi.app/#pricing
+- Blog (queue management guides): https://pammi.app/blog
+- Terms & Conditions: https://pammi.app/terms
+- Privacy Policy: https://pammi.app/privacy
+- Refund & Cancellation Policy: https://pammi.app/refunds
+- Shipping & Delivery Policy: https://pammi.app/shipping
+- Contact: https://pammi.app/contact
+
+## Blog — queue management guides
+
+- [Hospital & Healthcare Queue Management System: The Complete 2026 Guide](https://pammi.app/blog/hospital-healthcare-queue-management-system): What a hospital or healthcare queue management system actually does, the features that matter for clinics, and how to evaluate one in 2026.
+- [Queue Management System for Small Clinics: What Solo & Group Practices Actually Need](https://pammi.app/blog/queue-management-system-for-small-clinics): Most queue management software is built for hospitals with IT teams. Here is what a small clinic or solo practitioner should actually look for.
+- [Best Queue Management Software in 2026: How to Choose (+ What Clinics Should Look For)](https://pammi.app/blog/best-queue-management-software-2026): A practical framework for comparing queue management software in 2026 — pricing models, hardware requirements, and the questions to ask before you buy.
+- [Qwaiting Alternatives for Clinics and Small Hospitals in 2026](https://pammi.app/blog/qwaiting-alternatives-for-clinics): Evaluating Qwaiting alternatives for a clinic or small hospital? Here is what to compare — deployment model, pricing, and setup time — before you decide.
+- [WhatsApp Queue Notification System: Why Clinics Are Switching From SMS and Buzzers](https://pammi.app/blog/whatsapp-queue-notification-system): Why clinics are moving from SMS and pager-style buzzers to WhatsApp queue notifications, and what to look for in a notification system.
+- [AI Appointment Booking and Wait-Time Prediction: What It Means for Clinics](https://pammi.app/blog/ai-appointment-booking-wait-time-prediction): AI appointment booking and wait-time prediction software promise smarter scheduling. Here is what that actually means in a clinic setting.
+- [What Is a Virtual Queue Management System? A Plain-English Guide](https://pammi.app/blog/virtual-queue-management-system-guide): A plain-English explanation of virtual queue management systems, customer queue management, and self check-in — and when clinics need one.
+- [Queue Management System for Government Offices, DMVs & Driving License Centers](https://pammi.app/blog/queue-management-system-for-government-offices-and-dmv): What to look for in a queue management system for government offices, DMVs, and driving license centers — plus how banking, retail, and school use cases compare.
+
+## Contact
+
+- General & product: hello@pammi.app
+- Billing, refunds & enterprise: admin@pammi.app
