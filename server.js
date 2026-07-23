@@ -1,6 +1,7 @@
 /**
  * Production static file server for DigitalOcean App Platform.
  * Serves build output from ./dist (falls back to ./public for local smoke tests).
+ * Maps clean legal URLs (/terms, /privacy, …) to their .html files.
  */
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
@@ -14,6 +15,14 @@ const DIST = existsSync(join(__dirname, 'dist'))
   : join(__dirname, 'public');
 const PORT = Number(process.env.PORT) || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
+
+const CLEAN_PAGES = new Set([
+  'terms',
+  'privacy',
+  'refunds',
+  'shipping',
+  'contact',
+]);
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -52,24 +61,43 @@ async function sendFile(res, filePath) {
   res.end(body);
 }
 
+async function resolveFile(urlPath) {
+  const clean = decodeURIComponent((urlPath || '/').split('?')[0].split('#')[0] || '/');
+  const trimmed = clean.replace(/\/+$/, '') || '/';
+  const slug = trimmed.replace(/^\//, '');
+
+  if (CLEAN_PAGES.has(slug)) {
+    const htmlPath = join(DIST, `${slug}.html`);
+    if (existsSync(htmlPath)) return htmlPath;
+  }
+
+  let filePath = safePath(clean);
+  if (!filePath) return null;
+
+  try {
+    const st = await stat(filePath);
+    if (st.isDirectory()) filePath = join(filePath, 'index.html');
+    await stat(filePath);
+    return filePath;
+  } catch {
+    // try adding .html for unknown clean paths
+    if (!extname(slug) && slug) {
+      const htmlPath = join(DIST, `${slug}.html`);
+      if (existsSync(htmlPath)) return htmlPath;
+    }
+    return null;
+  }
+}
+
 const server = createServer(async (req, res) => {
   try {
-    let filePath = safePath(req.url);
+    const filePath = await resolveFile(req.url);
     if (!filePath) {
-      res.writeHead(400).end('Bad request');
+      // Marketing SPA fallback
+      await sendFile(res, join(DIST, 'index.html'));
       return;
     }
-
-    try {
-      const st = await stat(filePath);
-      if (st.isDirectory()) filePath = join(filePath, 'index.html');
-      await sendFile(res, filePath);
-      return;
-    } catch {
-      // Single-page marketing site — always fall back to index.html
-    }
-
-    await sendFile(res, join(DIST, 'index.html'));
+    await sendFile(res, filePath);
   } catch (err) {
     console.error(err);
     res.writeHead(500).end('Server error');

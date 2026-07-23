@@ -4,10 +4,11 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.js",
-    "dev": "node scripts/build.js && node server.js",
+    "build": "node scripts/generate-legal-pages.js && node scripts/build.js",
+    "dev": "npm run build && node server.js",
     "start": "node server.js",
-    "preview": "npm run build && PORT=4173 node server.js"
+    "preview": "npm run build && PORT=4173 node server.js",
+    "legal": "node scripts/generate-legal-pages.js"
   },
   "engines": {
     "node": ">=18"

@@ -83,19 +83,19 @@ function applyCtaOverrides(html) {
 
   const href = escapeHtmlAttr(tryNowUrl);
 
-  // Mailto demo CTAs → try-now / register URL
+  // Mailto try CTAs → try-now / register URL
   out = out.replaceAll(
-    `href="mailto:${contactEmail}?subject=Book%20a%20Pammi%20Demo"`,
+    `href="mailto:${contactEmail}?subject=Try%20Pammi"`,
     `href="${href}"`
   );
   out = out.replaceAll(
-    'href="mailto:hello@pammi.app?subject=Book%20a%20Pammi%20Demo"',
+    'href="mailto:hello@pammi.app?subject=Try%20Pammi"',
     `href="${href}"`
   );
 
-  // Primary "Book a Demo" buttons that scroll to #demo → try-now URL
+  // Primary "Try now" buttons that scroll to #demo → try-now URL
   out = out.replace(
-    /(<a\s+href="#demo"\s+class="btn btn-primary[^"]*">Book a Demo<\/a>)/g,
+    /(<a\s+href="#demo"\s+class="btn btn-primary[^"]*">Try now<\/a>)/g,
     (match) => match.replace('href="#demo"', `href="${href}"`)
   );
 
