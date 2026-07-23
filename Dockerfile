@@ -2,12 +2,12 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+COPY scripts ./scripts
+COPY public ./public
+COPY server.js ./
 
-COPY . .
-
-# Bake public Vite config at build time (must match DO App Platform env / build-args)
+# Bake public config at build time (must match DO App Platform env / build-args)
 ARG VITE_TRY_NOW_URL=
 ARG VITE_STAFF_APP_URL=
 ARG VITE_GA_MEASUREMENT_ID=

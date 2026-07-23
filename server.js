@@ -1,14 +1,17 @@
 /**
  * Production static file server for DigitalOcean App Platform.
- * Serves Vite build output from ./dist and falls back to index.html for SPA routes.
+ * Serves build output from ./dist (falls back to ./public for local smoke tests).
  */
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { join, extname, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const DIST = join(__dirname, 'dist');
+const DIST = existsSync(join(__dirname, 'dist'))
+  ? join(__dirname, 'dist')
+  : join(__dirname, 'public');
 const PORT = Number(process.env.PORT) || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 
@@ -41,7 +44,10 @@ async function sendFile(res, filePath) {
   const type = MIME[extname(filePath).toLowerCase()] || 'application/octet-stream';
   res.writeHead(200, {
     'Content-Type': type,
-    'Cache-Control': extname(filePath) === '.html' ? 'no-cache' : 'public, max-age=31536000, immutable',
+    'Cache-Control':
+      extname(filePath) === '.html'
+        ? 'no-cache'
+        : 'public, max-age=31536000, immutable',
   });
   res.end(body);
 }
@@ -60,7 +66,7 @@ const server = createServer(async (req, res) => {
       await sendFile(res, filePath);
       return;
     } catch {
-      // SPA fallback
+      // Single-page marketing site — always fall back to index.html
     }
 
     await sendFile(res, join(DIST, 'index.html'));
@@ -71,5 +77,5 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Pammi website listening on http://${HOST}:${PORT}`);
+  console.log(`Pammi website listening on http://${HOST}:${PORT} (root: ${DIST})`);
 });

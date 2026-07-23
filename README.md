@@ -1,36 +1,37 @@
 # Pammi.app — marketing site
 
-React (Vite) landing page for **Pammi.app**.
+Static landing page built from the HTML prototype (`public/index.html`).
+Served by a small Node HTTP server for **DigitalOcean App Platform**.
 
 ```bash
-npm install
-npm run dev
+npm run build
+npm start
+# → http://localhost:8080
 ```
 
 ## DigitalOcean App Platform
 
-Use a **Web Service** (Dockerfile detected automatically) or Node buildpack:
+Use a **Web Service** (Dockerfile detected automatically). Existing App Platform
+env vars are reused as Docker build args:
+
+| Variable | Purpose |
+|----------|---------|
+| `VITE_TRY_NOW_URL` | Primary “Book a Demo” CTA URL |
+| `VITE_STAFF_APP_URL` | Fallback → `{url}/register` if try-now unset |
+| `VITE_GA_MEASUREMENT_ID` | GA4 Measurement ID (`G-…`) |
+| `VITE_GA_PROPERTY_ID` | GA4 property id (reference) |
 
 | Setting | Value |
 |---------|--------|
-| Build command | `npm install --include=dev && npm run build` |
-| Run command | `npm start` |
+| Build | Dockerfile (auto) |
+| Run command | `npm start` / `node server.js` |
 | HTTP port | `8080` (or `$PORT`) |
 
-Build-time env (no trailing slash):
+## Project layout
 
-```env
-VITE_TRY_NOW_URL=https://your-staff.ondigitalocean.app/register
-# optional fallback if VITE_TRY_NOW_URL is unset:
-# VITE_STAFF_APP_URL=https://your-staff.ondigitalocean.app
 ```
-
-## Palette
-
-| Token | Hex |
-|-------|-----|
-| Ink | `#10201D` |
-| Paper | `#F6F1E6` |
-| Teal | `#1F5C52` |
-| Signal | `#FF5A1F` |
-| Mist | `#B9C4BE` |
+public/index.html   # Landing page (from pammi-landing-page.html)
+scripts/build.js    # Copies public → dist + injects GA / CTA config
+server.js           # Production static server
+Dockerfile          # Multi-stage DO / container image
+```
